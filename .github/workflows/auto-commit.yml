@@ -1,0 +1,26 @@
+mkdir -p .github/workflows && echo 'name: Auto Commit
+
+on:
+  schedule:
+    - cron: "0 10 * * *"  # Ejecuta todos los días a las 10 AM UTC
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      
+      - name: Hacer cambios
+        run: echo "Actualización automática - $(date)" >> daily_commit.txt
+
+      - name: Configurar Git
+        run: |
+          git config --global user.name "luisrru"
+          git config --global user.email "luis_ruiz_97@hotmail.es"
+
+      - name: Commit y push
+        run: |
+          git add .
+          git commit -m "Commit automático - $(date)" || echo "Sin cambios que hacer commit"
+          git push origin main || echo "Nada nuevo que subir"' > .github/workflows/auto-commit.yml
